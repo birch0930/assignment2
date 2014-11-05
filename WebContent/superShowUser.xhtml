@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>superShowUser</title>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+            superShowUser
+         </ui:define>
+
+		<ui:define name="heading">
+			<ui:include src="/sections/header.xhtml" />
+		</ui:define>
+
+		<ui:define name="sidebarLeft">
+			<ui:include src="/sections/user/sidebarLeft.xhtml" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h:form>
+				<h:dataTable value="#{empControl.empList}" var="emp" id="table">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.editColumn}" style="font-weight: bold" />
+						</f:facet>
+						<h:selectBooleanCheckbox value="#{emp.editable}" onclick="submit()" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.empNum}"
+								style="font-weight: bold" />
+						</f:facet>
+						<h:inputText value="#{emp.empNumber}" rendered="#{emp.editable}"
+									 size="10" />
+						<h:outputText value="#{emp.empNumber}" rendered="#{not emp.editable}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.empName}"
+								style="font-weight: bold" />
+						</f:facet>
+						<h:inputText value="#{emp.name}" rendered="#{emp.editable}"
+									 size="10" />
+						<h:outputText value="#{emp.name}" rendered="#{not emp.editable}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.userName}"
+								style="font-weight: bold" />
+						</f:facet>
+						<h:inputText value="#{emp.userName}" rendered="#{emp.editable}"
+									 size="10" />
+						<h:outputText value="#{emp.userName}" rendered="#{not emp.editable}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.empAuthority}"
+								style="font-weight: bold" />
+						</f:facet>
+						<h:outputText value="#{emp.type}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.deleteColumn}"
+								style="font-weight: bold" />
+						</f:facet>
+						<h:commandButton value="#{msgs.deleteColumn}"
+							action="#{empControl.empManager.deleteEmpoyee(emp)}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.changePass}"
+								style="font-weight: bold" />
+						</f:facet>
+						<h:commandButton value="#{msgs.changePass}"
+							action="#{empControl.displayEditEmp(emp)}" />
+					</h:column>
+				</h:dataTable>
+				<h:commandButton value="#{msgs.save}" action="#{empControl.update}" />
+				<h:commandButton value="#{msgs.add}" action="#{empControl.add}" />
+			</h:form>
+		</ui:define>
+
+		<ui:define name="footer">
+			<ui:include src="/sections/footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:corejsf="http://corejsf.com/facelets">
+<h:head>
+	<title>#{msgs.siteTitle}</title>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+            #{msgs.login}
+         </ui:define>
+
+		<ui:define name="heading">
+			<ui:include src="/sections/header.xhtml" />
+		</ui:define>
+
+		<ui:define name="sidebarLeft">
+			<ui:include src="/sections/login/sidebarLeft.xhtml" />
+		</ui:define>
+
+		<ui:define name="content">
+
+		<h:form>
+		
+			<h:panelGrid rows="3" columns="2" class="loginStyle">
+				#{msgs.userName}:<h:inputText value="#{empControl.credential.userName}" />
+				#{msgs.pw}:<h:inputSecret value="#{empControl.credential.password}" />
+				<h:commandButton class="buttonStyle" value="#{msgs.login}" action="#{empControl.login}" />
+			</h:panelGrid>
+		</h:form>
+
+		<h:graphicImage class="loginImgStyle" value="resources/images/loginImage.png" />
+
+		</ui:define>
+
+		<ui:define name="footer">
+			<ui:include src="/sections/footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:corejsf="http://corejsf.com/facelets">
+
+<h:head>
+	<title>enterTimesheet</title>
+	
+	<style>
+		.errorMessage{
+			color:red;
+		}
+	</style>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+            enterTimesheet
+         </ui:define>
+
+		<ui:define name="heading">
+			<ui:include src="/sections/header.xhtml" />
+		</ui:define>
+
+		<ui:define name="sidebarLeft">
+			<ui:include src="/sections/user/sidebarLeft.xhtml" />
+		</ui:define>
+
+		<ui:define name="content">
+
+
+			<h:form>
+
+				<h:panelGrid columns="8">
+				
+		#{msgs.empNum}: <h:outputText
+						value="#{sheetControl.currentTimesheet.employee.empNumber}" />
+					<h:form>
+				#{msgs.weekNum}:<h:inputText id="weekNumber"
+							valueChangeListener="#{sheetControl.handleEvent}"
+							value="#{sheetControl.currentTimesheet.weekNumber}">
+
+							<f:ajax render="@form" event="change">
+							</f:ajax>
+						</h:inputText>
+					</h:form>
+	
+		#{msgs.weekEnd}:<h:outputText
+						value="#{sheetControl.currentTimesheet.weekEnding}" id="endWeek">
+
+					</h:outputText>
+					<h:message for="endWeek" />
+				</h:panelGrid>
+		
+		#{msgs.empName}:<h:outputText
+					value="#{sheetControl.currentTimesheet.employee.name}" />
+
+				<h:dataTable value="#{sheetControl.currentTimesheet.details}"
+					var="row" id="table" border="1">
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formProject}
+            	</f:facet>
+
+						<h:inputText value="#{row.projectID}" label="#{msgs.formProject}"
+							id="projectId" size="10">
+							<f:convertNumber />
+						</h:inputText>
+						<f:facet name="footer">
+
+							<h:commandButton action="#{sheetControl.addRow}"
+								value="#{msgs.newRow}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formWP}
+            	</f:facet>
+						<h:inputText value="#{row.workPackage}" label="#{msgs.formWP}"
+							id="workPackage" size="10" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formTotal}
+            	</f:facet>
+
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.sat}
+            	</f:facet>
+						<h:inputText value="#{row.hoursForWeek[0]}" label="#{msgs.sat}"
+							id="sat" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.sun}
+            	</f:facet>
+
+						<h:inputText value="#{row.hoursForWeek[1]}" id="sun"
+							label="#{msgs.sun}" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.mon}
+            	</f:facet>
+						<h:inputText value="#{row.hoursForWeek[2]}" id="mon"
+							label="#{msgs.mon}" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.tue}
+            	</f:facet>
+						<h:inputText value="#{row.hoursForWeek[3]}" id="tue"
+							label="#{msgs.tue}" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.wed}
+            	</f:facet>
+						<h:inputText value="#{row.hoursForWeek[4]}" id="wed"
+							label="#{msgs.wed}" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.thu}
+            	</f:facet>
+						<h:inputText value="#{row.hoursForWeek[5]}" id="thu"
+							label="#{msgs.thu}" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.fri}
+            	</f:facet>
+						<h:inputText value="#{row.hoursForWeek[6]}" id="fri"
+							label="#{msgs.fri}" size="2" converter="javax.faces.BigDecimal">
+							<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formNotes}
+            	</f:facet>
+						<h:inputText value="#{row.notes}" size="12" />
+					</h:column>
+					<h:column>
+						<h:message for="weekNumber" styleClass="errorMessage"/>
+						<h:message for="projectId" styleClass="errorMessage"/>
+						<h:message for="workPackage" styleClass="errorMessage"/>
+						<h:message for="sat" styleClass="errorMessage"/>
+						<h:message for="sun" styleClass="errorMessage"/>
+						<h:message for="mon" styleClass="errorMessage" />
+						<h:message for="tue" styleClass="errorMessage"/>
+						<h:message for="wed" styleClass="errorMessage"/>
+						<h:message for="thu" styleClass="errorMessage"/>
+						<h:message for="fri" styleClass="errorMessage"/>
+						<h:message for="weekNumber" styleClass="errorMessage"/>
+					</h:column>
+				</h:dataTable>
+
+				<h:commandButton value="#{msgs.save}"
+					action="#{sheetControl.saveTimesheet}" />
+			</h:form>
+
+
+
+		</ui:define>
+
+		<ui:define name="footer">
+			<ui:include src="/sections/footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+
+
+</h:body>
+</html>

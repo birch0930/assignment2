@@ -1,0 +1,191 @@
+#heading {
+   padding: 20px;
+   height: 40px;
+   margin-bottom: 10px;
+   background-color: #d5edb3;
+   background-image: url(images/Time-Management.png);
+   background-repeat: no-repeat; 
+   border: 1px solid darkGray;
+}
+
+#sidebarLeft {
+   border: thin solid lightGray;
+   padding: 5px;
+   width: 200px;
+   height: 800px;
+   background-image: url(images/sideBar.png);
+   background-repeat: y; 
+}
+
+#content {
+   padding: 5px;
+   margin-top: 10px;
+   border: thin solid lightGray;
+   background: #fefeef;
+   position: absolute;
+   right: 8px;
+   left: 230px;
+   height: 800px;
+   top: 90px;
+}
+
+#footer {
+   padding: 20px;
+   margin-top: 10px;
+   height: 40px;
+   margin-bottom: 10px;
+   background-color: #d5edb3;
+   border: 1px solid darkGray;
+}
+
+.loginStyle {
+	border-spacing: 10px 50px;
+	font-size: 1.4em;
+	text-align: center;
+	margin-left:100px;
+	margin-top:100px;
+}
+
+.buttonStyle {
+	width: 100px;
+	height: 40px;
+	font-size:80%;
+}
+
+.loginImgStyle {
+	position: relative;
+	top: -350px;
+    right: -650px;
+}
+
+.header {
+   font-size: 1.4em;
+   font-style: italic;
+   font-family: Palatino;
+   text-align: center;
+}
+
+.planetImage {
+   padding: 5px;
+   text-align: center;
+}
+
+.planetImageSelected {
+   padding: 5px;
+   text-align: center;
+   background: #fefeef;
+   border: thin solid lightGray;
+}
+
+.welcome {
+   font-style: italic;
+   font-family: Palatino;
+}
+
+
+
+.welcomeImage {
+   margin-top: 10px;
+   text-align: center;
+}
+
+
+
+
+.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+	box-shadow:inset 0px 1px 0px 0px #54a3f7;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+	background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+	background-color:#007dc1;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	border:1px solid #124d77;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:13px;
+	padding:6px 14px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #154682;
+	width:100%;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+	background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+	background-color:#0061a7;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+.list-column1-center{
+  text-align: center;
+  width: 12%;
+}
+.list-column2-center {
+  text-align: center;
+  width: 12%;
+}
+.list-column3-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column4-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column5-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column6-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column7-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column8-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column9-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column10-center {
+  text-align: center;
+  width: 8%;
+}
+.list-column11-center {
+  text-align: center;
+  width: 12%;
+}
+.list-column12-center {
+  text-align: center;
+  width: 8%;
+}.list-column13-center {
+  text-align: center;
+  width: 8%;
+}
+.table-footer {
+  text-align: center;
+
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:corejsf="http://corejsf.com/facelets">
+   <head><title>IGNORED</title></head>  
+   <body>        
+      <ui:composition>    
+        
+        	<h:form>
+        		<h:commandButton value="#{msgs.newTimesheet}"  action="#{sheetControl.addTimesheet}" styleClass="myButton">
+	       			<f:setPropertyActionListener target="#{sheetControl.userName}" value="#{empControl.currentEmployee.userName}" />
+        		</h:commandButton>
+				<h:commandButton value="#{msgs.currentTimesheet}"
+					action="#{sheetControl.displayCurrentTimesheet}"
+					styleClass="myButton" >
+					<f:setPropertyActionListener target="#{sheetControl.userName}" value="#{empControl.currentEmployee.userName}" />
+				</h:commandButton>
+				<h:commandButton value="Logout"
+					action="#{empControl.empManager.logout(empControl.currentEmployee)}"
+					styleClass="myButton" />
+        		
+        	</h:form>
+       
+      </ui:composition>
+   </body>
+</html> 

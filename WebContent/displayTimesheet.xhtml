@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>displayTimesheet</title>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+            displayTimesheet
+         </ui:define>
+
+		<ui:define name="heading">
+			<ui:include src="/sections/header.xhtml" />
+		</ui:define>
+
+		<ui:define name="sidebarLeft">
+			<ui:include src="/sections/user/sidebarLeft.xhtml" />
+		</ui:define>
+
+		<ui:define name="content">
+
+			<h:messages globalOnly="true" />
+			<h:panelGrid columns="8">
+		
+		#{msgs.empNum}: <h:outputText
+					value="#{sheetControl.currentTimesheet.employee.empNumber}" />
+		#{msgs.weekNum}:<h:outputText
+					value="#{sheetControl.currentTimesheet.weekNumber}" />
+		#{msgs.weekEnd}:<h:outputText
+					value="#{sheetControl.currentTimesheet.weekEnding}" />
+			</h:panelGrid>
+		
+		#{msgs.empName}:<h:outputText
+				value="#{sheetControl.currentTimesheet.employee.name}" />
+			<br />
+
+
+			<h:form>
+				<h:commandLink value="#{msgs.pre}" action="#{sheetControl.previous}"
+					style="margin-right:85%" />
+
+				<h:commandLink value="#{msgs.next}"
+					action="#{sheetControl.nextTimesheet}" />
+				<h:dataTable value="#{sheetControl.currentTimesheet.details}"
+					rendered="#{ not empty sheetControl.currentTimesheet.details }"
+					var="row" id="table" border="1" footerClass="table-footer"
+					columnClasses="list-column1-center,list-column2-center,list-column3-center,
+                                                            list-column4-center,list-column5-center,
+                                                            list-column6-center,list-column7-center,
+                                                            list-column8-center,list-column9-center,
+                                                            list-column10-center,list-column11-center,
+                                                            list-column12-center,list-column13-center">
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formProject}
+            	</f:facet>
+
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.projectID}" size="10" />
+
+						<h:inputText rendered="#{row.editable}" value="#{row.projectID}"
+							size="10" />
+						<f:facet name="footer">
+							<h:outputText value="#{msgs.formTotal}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formWP}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.workPackage}" size="10" />
+						<h:inputText rendered="#{row.editable}" value="#{row.workPackage}"
+							size="10" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formTotal}
+            	</f:facet>
+						<h:outputText value="#{row.sum}" size="5" />
+
+						<f:facet name="footer">
+							<h:outputText value="#{sheetControl.currentTimesheet.totalHours}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.sat}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[0]}" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[0]}" size="5" />
+
+						<f:facet name="footer">
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[0]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.sun}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[1]}" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[1]}" size="5" />
+						<f:facet name="footer">
+
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[1]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.mon}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[2]}" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[2]}" size="5" />
+						<f:facet name="footer">
+
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[2]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.tue}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[3]}" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[3]}" size="5" />
+						<f:facet name="footer">
+
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[3]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.wed}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[4]}" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[4]}" size="5" />
+						<f:facet name="footer">
+
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[4]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.thu}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[5]}" size="5" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[5]}" size="5" />
+						<f:facet name="footer">
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[5]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.fri}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}"
+							value="#{row.hoursForWeek[6]}" size="5" />
+						<h:inputText rendered="#{row.editable}"
+							value="#{row.hoursForWeek[6]}" size="5" />
+						<f:facet name="footer">
+							<h:outputText
+								value="#{sheetControl.currentTimesheet.dailyHours[6]}" />
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+            		#{msgs.formNotes}
+            	</f:facet>
+						<h:outputText rendered="#{not row.editable}" value="#{row.notes}"
+							size="12" />
+						<h:inputText rendered="#{row.editable}" value="#{row.notes}"
+							size="12" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+								#{msgs.action}
+						</f:facet>
+						<h:commandLink value="#{msgs.edit}"
+							action="#{sheetControl.editTimesheet(row)}" />
+					</h:column>
+					<h:column>
+						<h:commandLink value="#{msgs.del}"
+							action="#{sheetControl.delRow(row)}" />
+					</h:column>
+					<f:facet name="footer">
+						<h:panelGrid>
+							<h:commandButton action="#{sheetControl.addRow}"
+								value="#{msgs.newRow}" />
+						</h:panelGrid>
+					</f:facet>
+				</h:dataTable>
+
+
+				<h:commandButton action="#{sheetControl.updateTimesheet}"
+					value="Update" />
+			</h:form>
+
+
+		</ui:define>
+
+		<ui:define name="footer">
+			<ui:include src="/sections/footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

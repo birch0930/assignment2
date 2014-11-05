@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>newUser</title>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+            newUser
+         </ui:define>
+
+		<ui:define name="heading">
+			<ui:include src="/sections/header.xhtml" />
+		</ui:define>
+
+		<ui:define name="sidebarLeft">
+			<ui:include src="/sections/user/sidebarLeft.xhtml" />
+		</ui:define>
+		
+		<ui:define name="content">
+		<h:form>	
+			<h:panelGrid columns="2">
+				#{msgs.empNum}<h:inputText value="#{empControl.employee.empNumber}" style="text-align:left" />
+				#{msgs.empName}<h:inputText value="#{empControl.employee.name}" style="text-align:left" />
+				#{msgs.userName}<h:inputText value="#{empControl.employee.userName}" style="text-align:left" />
+			</h:panelGrid>
+			<br/>
+			<h:commandButton value="#{msgs.save}"
+			 action="#{empControl.newEmployee}"/>
+			<br/>
+		</h:form>
+		
+		</ui:define>
+		
+		<ui:define name="footer">
+			<ui:include src="/sections/footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
