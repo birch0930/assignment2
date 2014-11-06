@@ -1,10 +1,22 @@
 package ca.bcit.infosys.access;
 
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.enterprise.context.ConversationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.sql.DataSource;
 
 import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
@@ -18,30 +30,10 @@ import ca.bcit.infosys.employee.EmployeeList;
  * 
  */
 public class EmployeeManager implements EmployeeList {
+	@Resource(mappedName = "java:jboss/datasources/TIMESHEET")
+	private DataSource dataSource;
 	private Employee employee;
-	private Credentials credential;
-
-	/**
-	 * Create the employee list with fake data.
-	 */
-	private static ArrayList<Employee> empInfo = new
-	ArrayList<Employee>(Arrays.asList(new Employee("user1", 1, "u1", 0),
-			new Employee("user2", 2, "u2", 1),
-			new Employee("user3", 3, "u3", 1),
-			new Employee("user4", 4, "u4", 1),
-			new Employee("user5", 5, "u5", 1)));	
-
-	/**
-	 * Create the fake login combos.
-	 */
-	private static Map<String, String> combos = new HashMap<String, String>();
-	{
-		combos.put("u1", "aaa");
-		combos.put("u2", "bbb");
-		combos.put("u3", "ccc");
-		combos.put("u4", "ddd");
-		combos.put("u5", "eee");
-	}
+	private Credentials credential;	
 
 	/**
 	 * Return Employee table for all Employees.
@@ -54,7 +46,42 @@ public class EmployeeManager implements EmployeeList {
 
 	@Override
 	public List<Employee> getEmployees() {
-		return empInfo;
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
+		Connection connection = null;
+		Statement stmt = null;
+		try {
+			try {
+				connection = dataSource.getConnection();
+				try {
+					stmt = connection.createStatement();
+					ResultSet result = stmt
+							.executeQuery("SELECT * FROM EMPLOYEE "
+									+ "ORDER BY EMP_ID");
+					while (result.next()) {
+						Employee e = new Employee();
+						e.setName(result.getString("EMPLOYEE_NAME"));
+						e.setEmpNumber(result.getString("EMPLOYEE_NUMBER"));
+						e.setUserName(result.getString("USER_NAME"));
+						e.setType(result.getInt("AUTHORITY"));
+						employeeList.add(e);
+
+					}
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error in getAll");
+			ex.printStackTrace();
+			return null;
+		}
+		return employeeList;
 	}
 
 	/**
@@ -69,13 +96,41 @@ public class EmployeeManager implements EmployeeList {
 
 	@Override
 	public Employee getEmployee(String name) {
-		for (int i = 0; i < empInfo.size(); i++) {
-			if (empInfo.get(i).getUserName().equalsIgnoreCase
-
-			(name))
-				return empInfo.get(i);
+		Connection connection = null;
+		Statement stmt = null;
+		try {
+			try {
+				connection = dataSource.getConnection();
+				try {
+					stmt = connection.createStatement();
+					ResultSet result = stmt
+							.executeQuery("SELECT * FROM EMPLOYEE where EMP_NAME = '"
+									+ name + "'");
+					if (result.next()) {
+						Employee e = new Employee();
+						e.setName(result.getString("EMPLOYEE_NAME"));
+						e.setEmpNumber(result.getString("EMPLOYEE_NUMBER"));
+						e.setUserName(result.getString("USER_NAME"));
+						e.setType(result.getInt("AUTHORITY"));
+						return e;
+					} else {
+						return null;
+					}
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error in find " + name);
+			ex.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 	
 	/**
@@ -83,7 +138,30 @@ public class EmployeeManager implements EmployeeList {
 	 */
 	@Override
 	public Map<String, String> getLoginCombos() {
-		return combos;
+		Connection connection = null;
+		Statement stmt = null;
+		Map<String, String> combos = null;
+		try {
+			combos = new HashMap<String, String>();
+			try {
+				connection = dataSource.getConnection();
+				stmt = connection.createStatement();
+				ResultSet result = stmt.executeQuery("SELECT * FROM CREDENTIALS ");
+				while (result.next()) {
+					combos.put(result.getString("USER_NAME"),
+							result.getString("PASSWORD"));
+				}
+				return combos;
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -101,7 +179,34 @@ public class EmployeeManager implements EmployeeList {
 	 */
 	@Override
 	public Employee getAdministrator() {
-		return empInfo.get(0);
+		Connection connection = null;
+		Statement stmt = null;
+		
+		try {
+			try {
+				connection = dataSource.getConnection();
+				stmt = connection.createStatement();
+				ResultSet result = stmt.executeQuery("SELECT * FROM EMPLOYEE WHERE  AUTHORITY = 0 ");
+				if (result.next()) {
+					Employee e = new Employee();
+					e.setName(result.getString("EMPLOYEE_NAME"));
+					e.setEmpNumber(result.getString("EMPLOYEE_NUMBER"));
+					e.setUserName(result.getString("USER_NAME"));
+					e.setType(result.getInt("AUTHORITY"));
+					return e;
+				} else {
+					return null;
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -137,7 +242,41 @@ public class EmployeeManager implements EmployeeList {
 	 */
 	@Override
 	public void deleteEmpoyee(Employee employee) {
-		empInfo.remove(employee);
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		try {
+			try {
+				connection = dataSource.getConnection();
+				try {
+					stmt = connection
+							.prepareStatement("DELETE FROM TIMESHEETS WHERE EMP_ID =  ?");
+					stmt.setInt(1, Integer.parseInt(employee.getEmpNumber()));
+					stmt.executeUpdate();
+					
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+				try {
+				stmt = connection
+						.prepareStatement("DELETE FROM EMPLOYEE WHERE EMP_ID =  ?");
+				stmt.setInt(1, Integer.parseInt(employee.getEmpNumber()));
+				stmt.executeUpdate();
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error in remove " + employee);
+			ex.printStackTrace();
+		}
 	}
 
 	/**
@@ -145,7 +284,39 @@ public class EmployeeManager implements EmployeeList {
 	 */
 	@Override
 	public void addEmployee(Employee newEmployee) {
-		empInfo.add(newEmployee);
+		final int EMPLOYEE_NAME = 1;
+		final int EMPLOYEE_NUMBER = 2;
+		final int USER_NAME = 3;
+		final int AUTHORITY = 4;
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		try {
+			try {
+				connection = dataSource.getConnection();
+				try {
+					stmt = connection.prepareStatement("INSERT INTO EMPLOYEE "
+							+ "VALUES ('', ?, ?, ?, ?)");
+					
+					stmt.setString(EMPLOYEE_NAME, newEmployee.getName());
+					stmt.setString(EMPLOYEE_NUMBER, newEmployee.getEmpNumber());
+					stmt.setString(USER_NAME, newEmployee.getUserName());
+					stmt.setInt(AUTHORITY, newEmployee.getType());
+					stmt.executeUpdate();
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error in persist  employee");
+			ex.printStackTrace();
+		}
 	}
 
 	public Credentials getCredential() {
