@@ -60,7 +60,7 @@ public class EmployeeManager implements EmployeeList {
 					while (result.next()) {
 						Employee e = new Employee();
 						e.setName(result.getString("EMPLOYEE_NAME"));
-						e.setEmpNumber(result.getString("EMPLOYEE_NUMBER"));
+						e.setEmpNumber(result.getInt("EMPLOYEE_NUMBER"));
 						e.setUserName(result.getString("USER_NAME"));
 						e.setType(result.getInt("AUTHORITY"));
 						employeeList.add(e);
@@ -109,7 +109,7 @@ public class EmployeeManager implements EmployeeList {
 					if (result.next()) {
 						Employee e = new Employee();
 						e.setName(result.getString("EMPLOYEE_NAME"));
-						e.setEmpNumber(result.getString("EMPLOYEE_NUMBER"));
+						e.setEmpNumber(result.getInt("EMPLOYEE_NUMBER"));
 						e.setUserName(result.getString("USER_NAME"));
 						e.setType(result.getInt("AUTHORITY"));
 						return e;
@@ -190,7 +190,7 @@ public class EmployeeManager implements EmployeeList {
 				if (result.next()) {
 					Employee e = new Employee();
 					e.setName(result.getString("EMPLOYEE_NAME"));
-					e.setEmpNumber(result.getString("EMPLOYEE_NUMBER"));
+					e.setEmpNumber(result.getInt("EMPLOYEE_NUMBER"));
 					e.setUserName(result.getString("USER_NAME"));
 					e.setType(result.getInt("AUTHORITY"));
 					return e;
@@ -250,7 +250,7 @@ public class EmployeeManager implements EmployeeList {
 				try {
 					stmt = connection
 							.prepareStatement("DELETE FROM TIMESHEETS WHERE EMP_ID =  ?");
-					stmt.setInt(1, Integer.parseInt(employee.getEmpNumber()));
+					stmt.setInt(1, employee.getEmpNumber());
 					stmt.executeUpdate();
 					
 				} finally {
@@ -261,7 +261,7 @@ public class EmployeeManager implements EmployeeList {
 				try {
 				stmt = connection
 						.prepareStatement("DELETE FROM EMPLOYEE WHERE EMP_ID =  ?");
-				stmt.setInt(1, Integer.parseInt(employee.getEmpNumber()));
+				stmt.setInt(1, employee.getEmpNumber());
 				stmt.executeUpdate();
 				} finally {
 					if (stmt != null) {
@@ -299,7 +299,7 @@ public class EmployeeManager implements EmployeeList {
 							+ "VALUES ('', ?, ?, ?, ?)");
 					
 					stmt.setString(EMPLOYEE_NAME, newEmployee.getName());
-					stmt.setString(EMPLOYEE_NUMBER, newEmployee.getEmpNumber());
+					stmt.setInt(EMPLOYEE_NUMBER, newEmployee.getEmpNumber());
 					stmt.setString(USER_NAME, newEmployee.getUserName());
 					stmt.setInt(AUTHORITY, newEmployee.getType());
 					stmt.executeUpdate();
@@ -314,7 +314,7 @@ public class EmployeeManager implements EmployeeList {
 				}
 			}
 		} catch (SQLException ex) {
-			System.out.println("Error in persist  employee");
+			System.out.println("Error in persist employee");
 			ex.printStackTrace();
 		}
 	}

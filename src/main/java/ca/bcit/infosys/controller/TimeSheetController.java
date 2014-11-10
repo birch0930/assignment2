@@ -65,7 +65,7 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 
 	@Override
 	public List<Timesheet> getTimesheets() {
-		timesheetList = timesheetManager.getTimesheets();
+		//timesheetList = timesheetManager.getTimesheets();
 		return timesheetList;
 	}
 

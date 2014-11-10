@@ -14,7 +14,7 @@ public class Employee implements Serializable {
     /** The employee's name. */
     private String name;
     /** The employee's employee number. */
-    private String empNumber;
+    private int empNumber;
     /** The employee's login ID. */
     private String userName;
     /** The employee's type. */
@@ -44,7 +44,7 @@ public class Employee implements Serializable {
      * @param number the empNumber of the user.
      * @param id the loginID of the user.
      */
-    public Employee(final String empName, final String number, final String id, final int empType) {
+    public Employee(final String empName, final int number, final String id, final int empType) {
         name = empName;
         empNumber = number;
         userName = id;
@@ -68,14 +68,14 @@ public class Employee implements Serializable {
     /**
      * @return the empNumber
      */
-    public String getEmpNumber() {
+    public int getEmpNumber() {
         return empNumber;
     }
 
     /**
      * @param number the empNumber to set
      */
-    public void setEmpNumber(final String number) {
+    public void setEmpNumber(final int number) {
         empNumber = number;
     }
 
