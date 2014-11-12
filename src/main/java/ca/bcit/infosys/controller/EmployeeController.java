@@ -93,6 +93,7 @@ public class EmployeeController implements Serializable {
 	 */
 	public String login() {
 		boolean result = empManager.verifyUser(credential);		
+		System.out.println(result);
 		if (result) {
 			int type = empManager.getEmployee(credential.getUserName()).getType();
 			credential = new Credentials();
@@ -130,9 +131,10 @@ public class EmployeeController implements Serializable {
 	 * Delete the employee
 	 * @param emp
 	 */
-	public void deleteEmployee(Employee emp) {
+	public void deleteEmp(Employee emp) {
 		if (emp != null)
 			empManager.deleteEmpoyee(emp);
+		getEmployees();
 	}
 
 	/**
@@ -142,7 +144,12 @@ public class EmployeeController implements Serializable {
 	public String newEmployee() {
 		if (employee != null)
 			newEmp = new Employee(employee.getName(),employee.getEmpNumber(),employee.getUserName(), 1);
-			empManager.addEmployee(newEmp);
+		//System.out.println(newEmp.getName());
+		empManager.addEmployee(newEmp);
+		empList.add(newEmp);
+		//setEmpList(empManager.getEmployees());
+		getEmployees();	
+		
 		return "superShowUser";
 	}
 
@@ -175,6 +182,13 @@ public class EmployeeController implements Serializable {
 	 * @return
 	 */
 	public String update() {
+        for (Employee e : empList) {
+            if (e.isEditable() == true) {
+            	empManager.merge(e);
+                e.setEditable(false);
+            }
+        }
+		
 		return "superShowUser";
 	}
 
@@ -215,7 +229,7 @@ public class EmployeeController implements Serializable {
 	 * @return
 	 */
 	public String changePassword(String newPassword) {
-		empManager.getLoginCombos().put(getEditEmp().getUserName(), newPassword);
+		empManager.changePass(editEmp, newPassword);
 		return "superShowUser";
 	}
 		

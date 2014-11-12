@@ -36,8 +36,6 @@
 							<h:outputText value="#{msgs.empNum}"
 								style="font-weight: bold" />
 						</f:facet>
-						<h:inputText value="#{emp.empNumber}" rendered="#{emp.editable}"
-									 size="10" />
 						<h:outputText value="#{emp.empNumber}" rendered="#{not emp.editable}" />
 					</h:column>
 
@@ -56,8 +54,6 @@
 							<h:outputText value="#{msgs.userName}"
 								style="font-weight: bold" />
 						</f:facet>
-						<h:inputText value="#{emp.userName}" rendered="#{emp.editable}"
-									 size="10" />
 						<h:outputText value="#{emp.userName}" rendered="#{not emp.editable}" />
 					</h:column>
 					
@@ -75,7 +71,7 @@
 								style="font-weight: bold" />
 						</f:facet>
 						<h:commandButton value="#{msgs.deleteColumn}"
-							action="#{empControl.empManager.deleteEmpoyee(emp)}" />
+							action="#{empControl.deleteEmp(emp)}" />
 					</h:column>
 					
 					<h:column>

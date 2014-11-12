@@ -56,11 +56,11 @@ public class EmployeeManager implements EmployeeList {
 					stmt = connection.createStatement();
 					ResultSet result = stmt
 							.executeQuery("SELECT * FROM EMPLOYEE "
-									+ "ORDER BY EMP_ID");
+									+ "ORDER BY EMPLOYEE_ID");
 					while (result.next()) {
 						Employee e = new Employee();
 						e.setName(result.getString("EMPLOYEE_NAME"));
-						e.setEmpNumber(result.getInt("EMPLOYEE_NUMBER"));
+						e.setEmpNumber(result.getInt("EMPLOYEE_ID"));
 						e.setUserName(result.getString("USER_NAME"));
 						e.setType(result.getInt("AUTHORITY"));
 						employeeList.add(e);
@@ -104,12 +104,12 @@ public class EmployeeManager implements EmployeeList {
 				try {
 					stmt = connection.createStatement();
 					ResultSet result = stmt
-							.executeQuery("SELECT * FROM EMPLOYEE where EMP_NAME = '"
+							.executeQuery("SELECT * FROM EMPLOYEE where USER_NAME = '"
 									+ name + "'");
 					if (result.next()) {
 						Employee e = new Employee();
 						e.setName(result.getString("EMPLOYEE_NAME"));
-						e.setEmpNumber(result.getInt("EMPLOYEE_NUMBER"));
+						e.setEmpNumber(result.getInt("EMPLOYEE_ID"));
 						e.setUserName(result.getString("USER_NAME"));
 						e.setType(result.getInt("AUTHORITY"));
 						return e;
@@ -190,7 +190,7 @@ public class EmployeeManager implements EmployeeList {
 				if (result.next()) {
 					Employee e = new Employee();
 					e.setName(result.getString("EMPLOYEE_NAME"));
-					e.setEmpNumber(result.getInt("EMPLOYEE_NUMBER"));
+					e.setEmpNumber(result.getInt("EMPLOYEE_ID"));
 					e.setUserName(result.getString("USER_NAME"));
 					e.setType(result.getInt("AUTHORITY"));
 					return e;
@@ -249,7 +249,7 @@ public class EmployeeManager implements EmployeeList {
 				connection = dataSource.getConnection();
 				try {
 					stmt = connection
-							.prepareStatement("DELETE FROM TIMESHEETS WHERE EMP_ID =  ?");
+							.prepareStatement("DELETE FROM TIMESHEETS WHERE EMPLOYEE_ID =  ?");
 					stmt.setInt(1, employee.getEmpNumber());
 					stmt.executeUpdate();
 					
@@ -260,8 +260,18 @@ public class EmployeeManager implements EmployeeList {
 				}
 				try {
 				stmt = connection
-						.prepareStatement("DELETE FROM EMPLOYEE WHERE EMP_ID =  ?");
+						.prepareStatement("DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID =  ?");
 				stmt.setInt(1, employee.getEmpNumber());
+				stmt.executeUpdate();
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+				try {
+				stmt = connection
+						.prepareStatement("DELETE FROM CREDENTIALS WHERE USER_NAME =  ?");
+				stmt.setString(1, employee.getUserName());
 				stmt.executeUpdate();
 				} finally {
 					if (stmt != null) {
@@ -285,9 +295,8 @@ public class EmployeeManager implements EmployeeList {
 	@Override
 	public void addEmployee(Employee newEmployee) {
 		final int EMPLOYEE_NAME = 1;
-		final int EMPLOYEE_NUMBER = 2;
-		final int USER_NAME = 3;
-		final int AUTHORITY = 4;
+		final int USER_NAME = 2;
+		final int AUTHORITY = 3;
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -295,11 +304,9 @@ public class EmployeeManager implements EmployeeList {
 			try {
 				connection = dataSource.getConnection();
 				try {
-					stmt = connection.prepareStatement("INSERT INTO EMPLOYEE "
-							+ "VALUES ('', ?, ?, ?, ?)");
-					
+					stmt = connection.prepareStatement("INSERT INTO EMPLOYEE(EMPLOYEE_ID,EMPLOYEE_NAME,USER_NAME,AUTHORITY)"
+							+ "VALUES (0, ?, ?, ?)");
 					stmt.setString(EMPLOYEE_NAME, newEmployee.getName());
-					stmt.setInt(EMPLOYEE_NUMBER, newEmployee.getEmpNumber());
 					stmt.setString(USER_NAME, newEmployee.getUserName());
 					stmt.setInt(AUTHORITY, newEmployee.getType());
 					stmt.executeUpdate();
@@ -319,6 +326,68 @@ public class EmployeeManager implements EmployeeList {
 		}
 	}
 
+    public void merge(Employee employee) {
+		final int EMPLOYEE_NAME = 1;
+		final int EMPLOYEE_ID = 2;
+		
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            try {
+                connection = dataSource.getConnection();
+                try {
+                    stmt = connection.prepareStatement("UPDATE EMPLOYEE "
+                            + "SET EMPLOYEE_NAME = ? WHERE EMPLOYEE_ID = ?");
+					stmt.setString(EMPLOYEE_NAME, employee.getName());
+					stmt.setInt(EMPLOYEE_ID, employee.getEmpNumber());
+                    stmt.executeUpdate();
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in merge " + employee);
+            ex.printStackTrace();
+        }
+    }
+	
+    public void changePass(Employee employee, String newPass) {
+		final int PASSWORD = 1;
+		final int USER_NAME = 2;
+		
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            try {
+                connection = dataSource.getConnection();
+                try {
+                    stmt = connection.prepareStatement("UPDATE CREDENTIALS "
+                            + "SET PASSWORD = ? WHERE USER_NAME = ?");
+					stmt.setString(PASSWORD, newPass);
+					stmt.setString(USER_NAME, employee.getUserName());
+                    stmt.executeUpdate();
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in changing password " + employee);
+            ex.printStackTrace();
+        }
+    }
+    
 	public Credentials getCredential() {
 		return credential;
 	}
