@@ -93,7 +93,6 @@ public class EmployeeController implements Serializable {
 	 */
 	public String login() {
 		boolean result = empManager.verifyUser(credential);		
-		System.out.println(result);
 		if (result) {
 			int type = empManager.getEmployee(credential.getUserName()).getType();
 			credential = new Credentials();
