@@ -110,6 +110,65 @@ public class TimesheetManager implements java.io.Serializable {
 	 *            timesheet
 	 */
 	public void update(Timesheet timesheet) {
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+
+		for (TimesheetRow timesheetRow : timesheet.getDetails()) {
+
+			try {
+				try {
+					connection = dataSource.getConnection();
+					try {
+						stmt = connection
+								.prepareStatement("UPDATE TIMESHEETS "
+										+ "SET WEEKNO = ?, PROJECT_ID = ?"
+										+ "WP = ?, TOTAL = ?, SAT = ?, SUN = ?,"
+										+ "MON = ?, TUE = ?, WED = ?, THU = ?,"
+										+ "FRI = ?, NOTES = ? WHERE EMPLOYEE_ID = ?");
+
+						stmt.setInt(EMP_ID, timesheet.getEmployee()
+								.getEmpNumber());
+						stmt.setInt(1, timesheet.getWeekNumber());
+						stmt.setInt(2, timesheetRow.getProjectID());
+						stmt.setString(3, timesheetRow.getWorkPackage());
+						stmt.setBigDecimal(4, timesheetRow.getSum());
+						stmt.setBigDecimal(5,
+								timesheetRow.getHoursForWeek()[0]);
+						stmt.setBigDecimal(6,
+								timesheetRow.getHoursForWeek()[1]);
+						stmt.setBigDecimal(7,
+								timesheetRow.getHoursForWeek()[2]);
+						stmt.setBigDecimal(8,
+								timesheetRow.getHoursForWeek()[3]);
+						stmt.setBigDecimal(9,
+								timesheetRow.getHoursForWeek()[4]);
+						stmt.setBigDecimal(10,
+								timesheetRow.getHoursForWeek()[5]);
+						stmt.setBigDecimal(1,
+								timesheetRow.getHoursForWeek()[6]);
+						stmt.setString(12, timesheetRow.getNotes());
+						stmt.setInt(13, timesheet.getEmployee()
+								.getEmpNumber());
+						stmt.setDate(ENDWEEK, new Date(timesheet.getEndWeek().getTime()));
+						stmt.executeUpdate();
+					} finally {
+						if (stmt != null) {
+							stmt.close();
+						}
+					}
+				} finally {
+					if (connection != null) {
+						connection.close();
+					}
+				}
+			} catch (SQLException ex) {
+				System.out.println("Error in persist " + timesheet);
+				ex.printStackTrace();
+			}
+		}
+		
+		
 //		int index = timesheetList.indexOf(timesheet);
 //		if (index != -1)
 //			timesheetList.set(index, timesheet);
