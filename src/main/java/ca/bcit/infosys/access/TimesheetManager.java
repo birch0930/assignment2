@@ -140,12 +140,12 @@ public class TimesheetManager implements java.io.Serializable {
 	                    	tsw.setWorkPackage(result.getString("WP"));
 	                    	tsw.setHour(SAT, result.getBigDecimal(SAT));
 	                    	tsw.setHour(SUN, result.getBigDecimal(SUN));
-	                    	tsw.setHour(MON, result.getBigDecimal(SUN));
-	                    	tsw.setHour(TUE, result.getBigDecimal(SUN));
-	                    	tsw.setHour(WED, result.getBigDecimal(SUN));
-	                    	tsw.setHour(THU, result.getBigDecimal(SUN));
-	                    	tsw.setHour(FRI, result.getBigDecimal(SUN));
-	        
+	                    	tsw.setHour(MON, result.getBigDecimal(MON));
+	                    	tsw.setHour(TUE, result.getBigDecimal(TUE));
+	                    	tsw.setHour(WED, result.getBigDecimal(WED));
+	                    	tsw.setHour(THU, result.getBigDecimal(THU));
+	                    	tsw.setHour(FRI, result.getBigDecimal(FRI));
+	                    	tsw.setNotes(result.getString("NOTES"));
 	                            
 	                    }
 	                } finally {
