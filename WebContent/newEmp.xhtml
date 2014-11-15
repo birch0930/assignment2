@@ -23,10 +23,23 @@
 		
 		<ui:define name="content">
 		<h:form>	
-			<h:panelGrid columns="2">
-				#{msgs.empNum}<h:inputText value="#{empControl.employee.empNumber}" style="text-align:left" />
-				#{msgs.empName}<h:inputText value="#{empControl.employee.name}" style="text-align:left" />
-				#{msgs.userName}<h:inputText value="#{empControl.employee.userName}" style="text-align:left" />
+			<h:panelGrid columns="3">
+				#{msgs.empNum}
+				<h:inputText value="#{empControl.employee.empNumber}" style="text-align:left" 
+							 id="newEmpNo" required="true">
+					<f:convertNumber maxFractionDigits="5"/>					
+				</h:inputText>
+				<h:message for="newEmpNo" styleClass="errorMessage"/>
+				#{msgs.empName}
+				<h:inputText value="#{empControl.employee.name}" style="text-align:left" 
+							 id="newEmpName" required="true">					
+				</h:inputText>
+				<h:message for="newEmpName" styleClass="errorMessage"/>
+				#{msgs.userName}
+				<h:inputText value="#{empControl.employee.userName}" style="text-align:left"
+							 id="newUserName" required="true">					
+				</h:inputText>
+				<h:message for="newUserName" styleClass="errorMessage"/>
 			</h:panelGrid>
 			<br/>
 			<h:commandButton value="#{msgs.save}"

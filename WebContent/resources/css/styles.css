@@ -187,5 +187,7 @@
 }
 .table-footer {
   text-align: center;
-
+}
+.errorMessage {
+   color:red; 
 }
