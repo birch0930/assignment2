@@ -71,15 +71,16 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 
 	@Override
 	public List<Timesheet> getTimesheets(Employee e) {
-		timesheetList = getTimesheets();
-		if (timesheetList == null)
-			return null;
-		List<Timesheet> temp = new ArrayList<Timesheet>();
-		for (Timesheet timesheet : timesheetList) {
-			if (!timesheet.getEmployee().equals(e))
-				temp.add(timesheet);
-		}
-		timesheetList.removeAll(temp);
+		timesheetList = timesheetManager.getTimesheets(e.getEmpNumber());
+//		timesheetList = getTimesheets();
+//		if (timesheetList == null)
+//			return null;
+//		List<Timesheet> temp = new ArrayList<Timesheet>();
+//		for (Timesheet timesheet : timesheetList) {
+//			if (!timesheet.getEmployee().equals(e))
+//				temp.add(timesheet);
+//		}
+//		timesheetList.removeAll(temp);
 		return timesheetList;
 	}
 
@@ -87,8 +88,9 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	 * @return display current timesheet
 	 */
 	public String displayCurrentTimesheet() {
-
+		employee = employeeManager.getEmployee(userName);
 		currentTimesheet = getCurrentTimesheet(employee);
+		System.out.println(employee.getEmpNumber());
 		if (currentTimesheet == null) {
 			return this.addTimesheet();
 		}
@@ -98,8 +100,8 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	@Override
 	public Timesheet getCurrentTimesheet(Employee e) {
 
-		employee = employeeManager.getEmployee(userName);
-		timesheetList = getTimesheets(e);
+
+		getTimesheets(e);
 		if (timesheetList == null || timesheetList.size() == 0)
 			return null;
 		return timesheetList.get(timesheetList.size() - 1);
@@ -120,8 +122,7 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	 * add a row
 	 */
 	public void addRow() {
-
-		System.out.println(userName);
+		//System.out.println(userName);
 		currentTimesheet.addRow();
 		timesheetManager.update(currentTimesheet);
 		timesheetList = getTimesheets(currentTimesheet.getEmployee());
