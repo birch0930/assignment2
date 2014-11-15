@@ -10,6 +10,9 @@
       <ui:composition>    
         
         	<h:form>
+        		<h:commandButton value="#{msgs.showUsers}" rendered="#{empControl.currentEmployee.type == 0}"
+					action="#{empControl.getEmployees()}"
+					styleClass="myButton" />
         		<h:commandButton value="#{msgs.newTimesheet}"  action="#{sheetControl.addTimesheet}" styleClass="myButton">
 	       			<f:setPropertyActionListener target="#{sheetControl.userName}" value="#{empControl.currentEmployee.userName}" />
         		</h:commandButton>
@@ -19,7 +22,7 @@
 					<f:setPropertyActionListener target="#{sheetControl.userName}" value="#{empControl.currentEmployee.userName}" />
 				</h:commandButton>
 				<h:commandButton value="Logout"
-					action="#{empControl.empManager.logout(empControl.currentEmployee)}"
+					action="#{empControl.logout()}"
 					styleClass="myButton" />
         		
         	</h:form>

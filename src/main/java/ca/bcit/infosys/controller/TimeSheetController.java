@@ -22,9 +22,11 @@ import ca.bcit.infosys.timesheet.Timesheet;
 import ca.bcit.infosys.timesheet.TimesheetCollection;
 import ca.bcit.infosys.timesheet.TimesheetRow;
 
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
@@ -63,24 +65,15 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	}
 
 
+	
 	@Override
 	public List<Timesheet> getTimesheets() {
-		//timesheetList = timesheetManager.getTimesheets();
 		return timesheetList;
 	}
 
 	@Override
 	public List<Timesheet> getTimesheets(Employee e) {
 		timesheetList = timesheetManager.getTimesheets(e.getEmpNumber());
-//		timesheetList = getTimesheets();
-//		if (timesheetList == null)
-//			return null;
-//		List<Timesheet> temp = new ArrayList<Timesheet>();
-//		for (Timesheet timesheet : timesheetList) {
-//			if (!timesheet.getEmployee().equals(e))
-//				temp.add(timesheet);
-//		}
-//		timesheetList.removeAll(temp);
 		return timesheetList;
 	}
 
@@ -101,11 +94,18 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	public Timesheet getCurrentTimesheet(Employee e) {
 
 
-		getTimesheets(e);
+		timesheetList = getTimesheets(e);
+		int currentWeekNum = new Timesheet().getWeekNumber();
 		if (timesheetList == null || timesheetList.size() == 0)
 			return null;
-		return timesheetList.get(timesheetList.size() - 1);
-
+		
+		for (Timesheet timesheet : timesheetList) {
+			System.out.println(currentWeekNum);
+			if(timesheet.getWeekNumber()==currentWeekNum)
+				return timesheet;
+		}
+	
+		return null;
 	}
 
 	@Override
@@ -134,12 +134,12 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	 * @return current page
 	 */
 	public String previous() {
-		int index = timesheetList.indexOf(currentTimesheet);
+		int index =currentTimesheet.getWeekNumber();
 		index--;
-		if (index >= 0) {
-			Timesheet nt = timesheetList.get(index);
-			if (nt != null)
-				currentTimesheet = nt;
+		for (Timesheet timesheet : timesheetList) {
+			System.out.println(index);
+			if(timesheet.getWeekNumber()==index)
+				currentTimesheet = timesheet;
 		}
 		return "";
 	}
@@ -150,12 +150,12 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	 * @return current page
 	 */
 	public String nextTimesheet() {
-		int index = timesheetList.indexOf(currentTimesheet);
+		int index =currentTimesheet.getWeekNumber();
 		index++;
-		if (index < timesheetList.size()) {
-			Timesheet nt = timesheetList.get(index);
-			if (nt != null)
-				currentTimesheet = nt;
+		for (Timesheet timesheet : timesheetList) {
+			System.out.println(index);
+			if(timesheet.getWeekNumber()==index)
+				currentTimesheet = timesheet;
 		}
 
 		return "";
@@ -167,8 +167,8 @@ public class TimeSheetController implements Serializable, TimesheetCollection {
 	 */
 	public String editTimesheet(TimesheetRow row) {
 		row.setEditable(true);
-		timesheetManager.update(currentTimesheet);
-		timesheetList = getTimesheets(currentTimesheet.getEmployee());
+		//timesheetManager.update(currentTimesheet);
+		//timesheetList = getTimesheets(currentTimesheet.getEmployee());
 		return "";
 	}
 

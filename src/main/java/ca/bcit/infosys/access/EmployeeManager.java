@@ -133,6 +133,44 @@ public class EmployeeManager implements EmployeeList {
 		}
 	}
 	
+	public Employee getEmployeeById(int id) {
+		Connection connection = null;
+		Statement stmt = null;
+		try {
+			try {
+				connection = dataSource.getConnection();
+				try {
+					stmt = connection.createStatement();
+					ResultSet result = stmt
+							.executeQuery("SELECT * FROM EMPLOYEE where EMPLOYEE_ID = '"
+									+ id + "'");
+					if (result.next()) {
+						Employee e = new Employee();
+						e.setName(result.getString("EMPLOYEE_NAME"));
+						e.setEmpNumber(result.getInt("EMPLOYEE_ID"));
+						e.setUserName(result.getString("USER_NAME"));
+						e.setType(result.getInt("AUTHORITY"));
+						return e;
+					} else {
+						return null;
+					}
+				} finally {
+					if (stmt != null) {
+						stmt.close();
+					}
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error in find " + id);
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	/**
 	 * return the login combos.
 	 */

@@ -94,7 +94,8 @@ public class EmployeeController implements Serializable {
 	public String login() {
 		boolean result = empManager.verifyUser(credential);		
 		if (result) {
-			int type = empManager.getEmployee(credential.getUserName()).getType();
+			currentEmployee = empManager.getEmployee(credential.getUserName());
+			int type =currentEmployee.getType();
 			credential = new Credentials();
 			if (type == 0){
 				getEmployees();
@@ -114,8 +115,9 @@ public class EmployeeController implements Serializable {
 	/**
 	 * Assign the empList with the employee list in the empManager.
 	 */
-	public void getEmployees() {		
+	public String getEmployees() {		
 		empList = empManager.getEmployees();
+		return "superShowUser";
 	}
 	
 	/**

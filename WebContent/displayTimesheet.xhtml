@@ -94,7 +94,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[0]}" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[0]}" size="5" />
+							value="#{row.hoursForWeek[0]}" size="5">
+								<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 
 						<f:facet name="footer">
 							<h:outputText
@@ -108,7 +110,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[1]}" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[1]}" size="5" />
+							value="#{row.hoursForWeek[1]}" size="5" >
+								<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 						<f:facet name="footer">
 
 							<h:outputText
@@ -122,7 +126,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[2]}" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[2]}" size="5" />
+							value="#{row.hoursForWeek[2]}" size="5" >
+								<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 						<f:facet name="footer">
 
 							<h:outputText
@@ -136,7 +142,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[3]}" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[3]}" size="5" />
+							value="#{row.hoursForWeek[3]}" size="5" >
+						<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 						<f:facet name="footer">
 
 							<h:outputText
@@ -150,7 +158,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[4]}" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[4]}" size="5" />
+							value="#{row.hoursForWeek[4]}" size="5" >
+								<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 						<f:facet name="footer">
 
 							<h:outputText
@@ -164,7 +174,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[5]}" size="5" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[5]}" size="5" />
+							value="#{row.hoursForWeek[5]}" size="5" >
+								<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 						<f:facet name="footer">
 							<h:outputText
 								value="#{sheetControl.currentTimesheet.dailyHours[5]}" />
@@ -177,7 +189,9 @@
 						<h:outputText rendered="#{not row.editable}"
 							value="#{row.hoursForWeek[6]}" size="5" />
 						<h:inputText rendered="#{row.editable}"
-							value="#{row.hoursForWeek[6]}" size="5" />
+							value="#{row.hoursForWeek[6]}" size="5" >
+								<f:validateDoubleRange minmum="0" maximum="24" />
+						</h:inputText>
 						<f:facet name="footer">
 							<h:outputText
 								value="#{sheetControl.currentTimesheet.dailyHours[6]}" />
