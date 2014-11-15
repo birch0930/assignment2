@@ -235,4 +235,8 @@ public class EmployeeController implements Serializable {
 	public String goBack() {
 		return "login";
 	}
+	
+	public String cancel() {
+		return "superShowUser";
+	}
 }
